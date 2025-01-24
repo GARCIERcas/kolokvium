@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>19 пунктов C++ (Подробные определения + Подсветка VS Code)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* ======== БАЗОВЫЕ СТИЛИ СТРАНИЦЫ ======== */
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: #fff;
+      background-color: #121212;
+      line-height: 1.6;
+    }
+    header {
+      background: #1c1c1c;
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    nav {
+      width: 100%;
+      overflow-x: auto; /* Горизонтальная прокрутка */
+      -webkit-overflow-scrolling: touch; /* Плавная прокрутка на iOS */
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: nowrap;
+      margin: 0;
+      padding: 0 1rem;
+    }
+    nav ul li {
+      flex: 0 0 auto;
+      white-space: nowrap;
+      margin-right: 1rem;
+    }
+    nav ul li:last-child {
+      margin-right: 0;
+    }
+    nav ul li a {
+      text-decoration: none;
+      color: #ccc;
+      font-size: 1rem;
+      transition: color 0.3s ease;
+    }
+    nav ul li a:hover {
+      color: #fff;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    h1, h2 {
+      margin: 0 1rem;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      color: #FFD700; /* Золото */
+    }
+    h2 {
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+      color: #00FA9A; /* Зеленоватый */
+    }
+    p {
+      text-align: justify;
+      margin: 1rem 0;
+      font-size: 1.1rem;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+    }
+
+    /* КЛАССЫ ДЛЯ ВЫДЕЛЕНИЙ В ТЕКСТЕ */
+    .highlight {
+      color: #FFA500;   /* Оранжевый для акцентов */
+      font-weight: bold;
+    }
+    .definition {
+      color: #FF69B4;   /* Розовый для слова "Определение" */
+      font-weight: bold;
+    }
+    .term {
+      color: #ADFF2F;   /* Салатовый для ключевых терминов */
+      font-weight: bold;
+    }
+
+    /* СЕКЦИИ (19 ПУНКТОВ) - СКРЫТЫ ПО УМОЛЧАНИЮ */
+    section {
+      display: none;
+    }
+    section.active {
+      display: block;
+    }
+
+    /* ======== ПОДСВЕТКА КОДА: VS CODE-СТИЛЬ ======== */
+    pre {
+      background: #1e1e1e;
+      padding: 1rem;
+      border-radius: 5px;
+      margin-top: 1rem;
+      color: #cfcfcf;
+      overflow-x: auto;
+    }
+    code {
+      font-family: Consolas, monospace;
+      font-size: 1rem;
+      white-space: pre-wrap; /* Перенос в коде */
+      word-wrap: break-word; /* Перенос слишком длинных строк */
+      display: block;
+    }
+    .code-comment {
+      color: #6A9955; /* Зеленый для комментариев */
+    }
+    .code-keyword {
+      color: #569CD6; /* Синий для ключевых слов */
+    }
+    .code-type {
+      color: #4EC9B0; /* Бирюзовый для типов */
+    }
+    .code-number {
+      color: #B5CEA8; /* Светло-зеленый для чисел */
+    }
+    .code-string {
+      color: #CE9178; /* Бежево-розовый для строк */
+    }
+    .code-operator {
+      color: #C586C0; /* Сиреневый для операторов */
+    }
+    .code-func {
+      color: #DCDCAA; /* Желтоватый для названий функций */
+    }
+
+    /* АДАПТИВНОСТЬ ДЛЯ УЗКИХ ЭКРАНОВ */
+    @media (max-width: 600px) {
+      nav ul li a {
+        font-size: 0.9rem;
+      }
+      h1 {
+        font-size: 1.6rem;
+      }
+      h2 {
+        font-size: 1.3rem;
+      }
+      p {
+        font-size: 1rem;
+      }
+      main {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="#" onclick="showSection(1)">1. Типы</a></li>
+        <li><a href="#" onclick="showSection(2)">2. Системы</a></li>
+        <li><a href="#" onclick="showSection(3)">3. Случайные</a></li>
+        <li><a href="#" onclick="showSection(4)">4. Деление</a></li>
+        <li><a href="#" onclick="showSection(5)">5. Условия</a></li>
+        <li><a href="#" onclick="showSection(6)">6. Логика</a></li>
+        <li><a href="#" onclick="showSection(7)">7. while</a></li>
+        <li><a href="#" onclick="showSection(8)">8. for</a></li>
+        <li><a href="#" onclick="showSection(9)">9. Неизвестн.</a></li>
+        <li><a href="#" onclick="showSection(10)">10. Массивы</a></li>
+        <li><a href="#" onclick="showSection(11)">11. Обработка</a></li>
+        <li><a href="#" onclick="showSection(12)">12. Линейн.</a></li>
+        <li><a href="#" onclick="showSection(13)">13. 2 указ.</a></li>
+        <li><a href="#" onclick="showSection(14)">14. Указ./ссыл</a></li>
+        <li><a href="#" onclick="showSection(15)">15. Массив/указ</a></li>
+        <li><a href="#" onclick="showSection(16)">16. Векторы</a></li>
+        <li><a href="#" onclick="showSection(17)">17. foreach</a></li>
+        <li><a href="#" onclick="showSection(18)">18. Итераторы</a></li>
+        <li><a href="#" onclick="showSection(19)">19. ASCII</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h1>19 пунктов по C++ (с подробными определениями)</h1>
+    <p>
+      В этом файле собраны <span class="highlight">19 пунктов</span>, раскрывающих ключевые основы языка C++.  
+      Каждый пункт содержит <span class="definition">Определение</span>, 
+      в котором особо выделяются <span class="term">важные термины</span>.  
+      Примеры кода стилизованы под <span class="highlight">VS Code</span>.
+    </p>
+
+    <!-- 1. Типы данных -->
+    <section id="sec1">
+      <h2>1. Типы данных</h2>
+      <p>
+        <span class="definition">Определение:</span> 
+        <span class="term">Типы данных</span> определяют, сколько памяти будет выделено под переменную, 
+        какой диапазон значений она может хранить и какие операции допустимы.  
+        Пример: <span class="term">целочисленные</span> (<code>int</code>, <code>long</code>), 
+        <span class="term">вещественные</span> (<code>float</code>, <code>double</code>), 
+        <span class="term">символьные</span> (<code>char</code>).  
+        Правильный выбор типа помогает экономить память и избегать переполнений.
+      </p>
+      <pre><code>
+<span class="code-comment">// Пример разных типов</span>
+<span class="code-keyword">int</span> signedInt = <span class="code-number">-100</span>;
+<span class="code-keyword">unsigned</span> <span class="code-keyword">int</span> unsignedInt = <span class="code-number">100</span>;
+<span class="code-type">float</span> f = <span class="code-number">3.14f</span>;
+<span class="code-type">char</span> c = <span class="code-string">'A'</span>;
+      </code></pre>
+    </section>
+
+    <!-- 2. Системы счисления -->
+    <section id="sec2">
+      <h2>2. Системы счисления</h2>
+      <p>
+        <span class="definition">Определение:</span>
+        <span class="term">Системы счисления</span> — это способы записи чисел при различных основаниях (2, 8, 10, 16...).  
+        В C++ можно вывести одно и то же число в десятичном (<code>dec</code>), 
+        восьмеричном (<code>oct</code>) или шестнадцатеричном (<code>hex</code>) формате.
+      </p>
+      <pre><code>
+<span class="code-comment">// Пример перевода числа 255</span>
+<span class="code-keyword">#include</span> <span class="code-string">&lt;iostream&gt;</span>
+<span class="code-keyword">#include</span> <span class="code-string">&lt;iomanip&gt;</span>
+<span class="code-keyword">using</span> <span class="code-keyword">namespace</span> std;
+
+<span class="code-keyword">int</span> main() {
+    <span class="code-keyword">int</span> num = <span class="code-number">255</span>;
+    cout &lt;&lt; "Десятичное: " &lt;&lt; num &lt;&lt; endl;
+    cout &lt;&lt; "Шестнадцатеричное: " &lt;&lt; hex &lt;&lt; num &lt;&lt; endl;
+    cout &lt;&lt; "Восьмеричное: "      &lt;&lt; oct &lt;&lt; num &lt;&lt; endl;
+    <span class="code-keyword">return</span> <span class="code-number">0</span>;
+}
+      </code></pre>
+    </section>
+
+    <!-- 3. Случайные числа -->
+    <section id="sec3">
+      <h2>3. Случайные числа</h2>
+      <p>
+        <span class="definition">Определение:</span>
+        <span class="term">Случайные числа</span> в C++ генерируются функцией <code>rand()</code>.  
+        Чтобы получать разные последовательности при каждом запуске, 
+        используется <code>srand(time(0))</code> (инициализация «seed»).  
+        Применяется в играх, тестировании, моделировании и т.д.
+      </p>
+      <pre><code>
+<span class="code-keyword">#include</span> <span class="code-string">&lt;cstdlib&gt;</span>
+<span class="code-keyword">#include</span> <span class="code-string">&lt;ctime&gt;</span>
+<span class="code-keyword">#include</span> <span class="code-string">&lt;iostream&gt;</span>
+<span class="code-keyword">using</span> <span class="code-keyword">namespace</span> std;
+
+<span class="code-keyword">int</span> main() {
+    srand(time(0));
+    <span class="code-keyword">int</span> oneDigit   = rand() % 10;
+    <span class="code-keyword">int</span> twoDigit   = 10 + rand() % 90;
+    <span class="code-keyword">int</span> threeDigit = 100 + rand() % 900;
+    cout &lt;&lt; oneDigit &lt;&lt; " " &lt;&lt; twoDigit &lt;&lt; " " &lt;&lt; threeDigit &lt;&lt; endl;
+    <span class="code-keyword">return</span> 0;
+}
+      </code></pre>
+    </section>
+
+    <!-- 4. Деление -->
+    <section id="sec4">
+      <h2>4. Деление</h2>
+      <p>
+        <span class="definition">Определение:</span>
+        <span class="term">Целочисленное деление</span> (оператор <code>/</code>) 
+        отбрасывает дробную часть. Оператор <code>%</code> возвращает остаток от деления.  
+        Например, <code>10 / 3 = 3</code>, <code>10 % 3 = 1</code>.
+      </p>
+      <pre><code>
+<span class="code-keyword">int</span> a = <span class="code-number">10</span>, b = <span class="code-number">3</span>;
+cout &lt;&lt; "Деление: " &lt;&lt; a / b &lt;&lt; endl;
+cout &lt;&lt; "Остаток: " &lt;&lt; a % b &lt;&lt; endl;
+      </code></pre>
+    </section>
+
+    <!-- 5. Условия -->
+    <section id="sec5">
+      <h2>5. Условия</h2>
+      <p>
+        <span class="definition">Определение:</span>
+        <span class="term">Условные операторы</span> <code>if</code>, <code>else</code>, <code>switch</code> 
+        используются, чтобы выполнять код, когда условие истинно, или выбирать одну ветвь из нескольких.  
+        <code>switch</code> удобен при множестве вариантов одной переменной.
+      </p>
+      <pre><code>
+<span class="code-keyword">if</span> (x &gt; 5) {
+    cout &lt;&lt; "Больше 5\n";
+} <span class="code-keyword">else</span> {
+    cout &lt;&lt; "Не больше 5\n";
+}
+
+<span class="code-keyword">switch</span> (x) {
+  case 5:  cout &lt;&lt; "5";  break;
+  case 10: cout &lt;&lt; "10"; break;
+  default: cout &lt;&lt; "Другое";
+}
+      </code></pre>
+    </section>
+
+    <!-- 6. Логика -->
+    <section id="sec6">
+      <h2>6. Логика</h2>
+      <p>
+        <span class="definition">Определение:</span>
+        <span class="term">Логические операции</span> — <code>&amp;&amp;</code> (И), <code>||</code> (ИЛИ), <code>!</code> (НЕ).  
+        Возвращают булево значение (<code>true</code>/<code>false</code>). Приоритет: 
+        <code>!</code> > <code>&amp;&amp;</code> > <code>||</code>.
+      </p>
+      <pre><code>
+bool a = true;
+bool b = false;
+cout &lt;&lt; (a &amp;&amp; b) &lt;&lt; endl; // 0
+cout &lt;&lt; (a || b) &lt;&lt; endl; // 1
+cout &lt;&lt; (!a)     &lt;&lt; endl; // 0
+      </code></pre>
+    </section>
+
+    <!-- 7. Цикл while -->
+    <section id="sec7">
+      <h2>7. Цикл while</h2>
+      <p>
+        <span class="definition">Определение:</span>
+        <span class="term">Цикл while</span> запускает тело цикла, пока условие истинно.  
+        <code>break</code> прерывает цикл, <code>continue</code> пропускает оставшуюся часть итерации.
+      </p>
+      <pre><code>
+<span class="code-keyword">int</span> i = <span class="code-number">0</span>;
+<span class="code-keyword">while</span> (i < <span class="code-number">5</span>) {
+    cout &lt;&lt; i &lt;&lt; " ";
+    i++;
+}
+      </code></pre>
+    </section>
+
+    <!-- 8. Цикл for -->
+    <section id="sec8">
+      <h2>8. Цикл for</h2>
+      <p>
+        <span class="definition">Определение:</span>
+        <span class="term">for</span> чаще всего используют, когда заранее известно число итераций.  
+        Например, для суммирования ряда, вычисления факториала, перебора индексов массива.
+      </p>
+      <pre><code>
+<span class="code-keyword">int</span> sum = <span class="code-number">0</span>;
+<span class="code-keyword">for</span> (<span class="code-keyword">int</span> i = 1; i &lt;= 5; i++) {
+    sum += i;
+}
+cout &lt;&lt; "Сумма 1..5: " &lt;&lt; sum;
+      </code></pre>
+    </section>
+
+    <!-- 9. Неизвестное количество -->
+    <section id="sec9">
+      <h2>9. Неизвестное количество</h2>
+      <p>
+        <span class="definition">Определение:</span>
+        Когда нужно считать <span class="term">неизвестное число</span> входных данных, 
+        обычно читают их в цикле до конца файла (EOF) или пока не встретится особое значение (например, 0).
+      </p>
+      <pre><code>
+<span class="code-keyword">int</span> sum = 0, val;
+<span class="code-keyword">while</span> (cin &gt;&gt; val) {
+    sum += val;
+}
+cout &lt;&lt; sum;
+      </code></pre>
+    </section>
+
+    <!-- 10. Массивы -->
+    <section id="sec10">
+      <h2>10. Массивы</h2>
+      <p>
+        <span class="definition">Определение:</span>
+        <span class="term">Статический массив</span> — это структура данных 
+        фиксированного размера, где элементы располагаются последовательно в памяти.  
+        Применяется, когда количество элементов заранее известно.
+      </p>
+      <pre><code>
+<span class="code-keyword">int</span> arr[<span class="code-number">5</span>] = {1,2,3,4,5};
+<span class="code-keyword">for</span> (<span class="code-keyword">int</span> i=0; i<5; i++) {
+    cout &lt;&lt; arr[i] &lt;&lt; " ";
+}
+      </code></pre>
+    </section>
+
+    <!-- 11. Обработка массивов -->
+    <section id="sec11">
+      <h2>11. Обработка массивов</h2>
+      <p>
+        <span class="definition">Определение:</span>
+        <span class="term">Обработка массива</span> включает в себя операции, 
+        связанные с изменением порядка элементов (циклический сдвиг, сортировка, 
+        реверс), а также другие действия, меняющие структуру данных в массиве.
+      </p>
+      <pre><code>
+<span class="code-keyword">#include</span> <span class="code-string">&lt;algorithm&gt;</span>
+
+<span class="code-keyword">int</span> arr[] = {1,2,3,4,5};
+reverse(arr, arr + 5); // Переворот
+      </code></pre>
+    </section>
+
+    <!-- 12. Линейные алгоритмы -->
+    <section id="sec12">
+      <h2>12. Линейные алгоритмы</h2>
+      <p>
+        <span class="definition">Определение:</span>
+        <span class="term">Линейные алгоритмы</span> — одноразовый проход по массиву, 
+        чтобы найти минимальное/максимальное значение, посчитать сумму, проверить уникальные элементы и т.д.
+      </p>
+      <pre><code>
+<span class="code-keyword">#include</span> <span class="code-string">&lt;set&gt;</span>
+<span class="code-keyword">int</span> arr[] = {1,3,3,7,5};
+set&lt;<span class="code-keyword">int</span>&gt; st(arr, arr+5);
+cout &lt;&lt; "Уникальных: " &lt;&lt; st.size();
+      </code></pre>
+    </section>
+
+    <!-- 13. Два указателя -->
+    <section id="sec13">
+      <h2>13. 2 указателя</h2>
+      <p>
+        <span class="definition">Определение:</span>
+        <span class="term">Техника «два указателя»</span> (start/end) 
+        используется для эффективного поиска подотрезков массива (например, с заданной суммой).  
+        Часто применяется к отсортированным данным.
+      </p>
+      <pre><code>
+<span class="code-keyword">int</span> arr[] = {1,2,3,4,5};
+<span class="code-keyword">int</span> start=0, end=0, sum=0, target=9;
+<span class="code-keyword">while</span> (end &lt; 5) {
+    sum += arr[end];
+    <span class="code-keyword">while</span> (sum &gt; target && start &lt;= end) {
+        sum -= arr[start++];
+    }
+    if (sum == target) {
+        // найден
+    }
+    end++;
+}
+      </code></pre>
+    </section>
+
+    <!-- 14. Указатели и ссылки -->
+    <section id="sec14">
+      <h2>14. Указатели и ссылки</h2>
+      <p>
+        <span class="definition">Определение:</span>
+        <span class="term">Указатель</span> хранит адрес переменной, а 
+        <span class="term">ссылка</span> (reference) — «другое имя» той же переменной.  
+        Ссылка не может быть переназначена; указатель можно изменить или сделать <code>nullptr</code>.
+      </p>
+      <pre><code>
+<span class="code-keyword">int</span> x = <span class="code-number">10</span>;
+<span class="code-keyword">int</span>* ptr = &x; // указатель
+<span class="code-keyword">int</span>& ref = x;  // ссылка
+*ptr = <span class="code-number">20</span>; // теперь x=20
+ref = <span class="code-number">30</span>;  // теперь x=30
+      </code></pre>
+    </section>
+
+    <!-- 15. Массив & указатель -->
+    <section id="sec15">
+      <h2>15. Массив &amp; указатель</h2>
+      <p>
+        <span class="definition">Определение:</span>
+        Имя массива (например, <code>arr</code>) указывает на адрес первого элемента (<code>&amp;arr[0]</code>).  
+        Благодаря этому, к элементам можно обращаться как <code>*(arr + i)</code>, что эквивалентно <code>arr[i]</code>.  
+        Это называется <span class="term">арифметикой указателей</span>.
+      </p>
+      <pre><code>
+<span class="code-keyword">int</span> arr[] = {1,2,3,4,5};
+<span class="code-keyword">int</span>* p = arr; // p указывает на arr[0]
+cout &lt;&lt; *(p + 2); // 3
+      </code></pre>
+    </section>
+
+    <!-- 16. Векторы -->
+    <section id="sec16">
+      <h2>16. Векторы</h2>
+      <p>
+        <span class="definition">Определение:</span>
+        <span class="term">std::vector</span> — динамический массив в C++.  
+        Он автоматически расширяется или сокращается, позволяет добавлять и удалять элементы методами <code>push_back()</code>, <code>pop_back()</code> и т.д.
+      </p>
+      <pre><code>
+<span class="code-keyword">#include</span> <span class="code-string">&lt;vector&gt;</span>
+<span class="code-keyword">using</span> <span class="code-keyword">namespace</span> std;
+
+vector&lt;<span class="code-keyword">int</span>&gt; v;
+v.push_back(10);
+v.push_back(20);
+cout &lt;&lt; "Размер: " &lt;&lt; v.size();
+      </code></pre>
+    </section>
+
+    <!-- 17. Цикл foreach -->
+    <section id="sec17">
+      <h2>17. foreach</h2>
+      <p>
+        <span class="definition">Определение:</span>
+        <span class="term">Range-based for</span> (или «foreach») позволяет 
+        перебрать элементы массива или вектора без явного индекса.  
+        Пример: <code>for (auto x : v)</code>.
+      </p>
+      <pre><code>
+<span class="code-keyword">int</span> arr[] = {1,2,3};
+<span class="code-keyword">for</span> (<span class="code-keyword">auto</span> x : arr) {
+    cout &lt;&lt; x &lt;&lt; " ";
+}
+      </code></pre>
+    </section>
+
+    <!-- 18. Итераторы -->
+    <section id="sec18">
+      <h2>18. Итераторы</h2>
+      <p>
+        <span class="definition">Определение:</span>
+        <span class="term">Итераторы</span> дают способ проходить по элементам контейнеров (vector, list, map и т.д.).  
+        С помощью <code>begin()</code>, <code>end()</code> (или <code>rbegin()</code>, <code>rend()</code> для обратного прохода) 
+        можно итерироваться, а методы <code>insert()</code>, <code>erase()</code> изменяют содержимое.
+      </p>
+      <pre><code>
+vector&lt;<span class="code-keyword">int</span>&gt; v = {1,2,3};
+v.insert(v.begin()+1, 10); // вставка
+v.erase(v.begin());        // удаление первого
+
+// Обратный итератор
+<span class="code-keyword">for</span> (<span class="code-keyword">auto</span> rit = v.rbegin(); rit != v.rend(); ++rit) {
+    cout &lt;&lt; *rit &lt;&lt; " ";
+}
+      </code></pre>
+    </section>
+
+    <!-- 19. ASCII -->
+    <section id="sec19">
+      <h2>19. ASCII</h2>
+      <p>
+        <span class="definition">Определение:</span>
+        <span class="term">ASCII</span> — кодировка, в которой символы (латинские буквы, цифры, знаки) 
+        имеют числовые коды от 0 до 127.  
+        В C++ можно приводить <code>char</code> к <code>int</code>, чтобы увидеть этот код.  
+        Функции <code>isalpha</code>, <code>isdigit</code>, <code>tolower</code> и т.д. 
+        упрощают работу с символами.
+      </p>
+      <pre><code>
+<span class="code-keyword">#include</span> <span class="code-string">&lt;cctype&gt;</span>
+<span class="code-keyword">#include</span> <span class="code-string">&lt;iostream&gt;</span>
+<span class="code-keyword">using</span> <span class="code-keyword">namespace</span> std;
+
+<span class="code-keyword">int</span> main() {
+    <span class="code-type">char</span> c = <span class="code-string">'A'</span>;
+    cout &lt;&lt; (int)c &lt;&lt; endl;   // Код 'A' (65)
+    cout &lt;&lt; (char)tolower(c) &lt;&lt; endl; // 'a'
+    <span class="code-keyword">return</span> 0;
+}
+      </code></pre>
+    </section>
+  </main>
+
+  <script>
+    // Функция для переключения видимой секции
+    function showSection(n) {
+      const sections = document.querySelectorAll('main section');
+      sections.forEach(sec => sec.classList.remove('active'));
+      const target = document.getElementById('sec' + n);
+      if (target) {
+        target.classList.add('active');
+        // Прокручиваемся вверх для "имитации" новой страницы
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    // При загрузке показываем первую секцию (пункт)
+    document.addEventListener('DOMContentLoaded', () => {
+      showSection(1);
+    });
+  </script>
+</body>
+</html>
